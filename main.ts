@@ -14,7 +14,7 @@ const INITIALIZE = true;
 
 async function main(){
     console.log("let's name some tokens!");
-    const myKeypair = loadWalletKey("ANDhx6WNwo8AS38bkcHgCzWDXDoQgwTFjqXQ1Qoi3EPe.json");
+    const myKeypair = loadWalletKey("ANDhx6WNwo8AS38bkcHgCzWDXDoQgwTFjqXQ1Qoi3EPe");
     const mint = new web3.PublicKey("FDR33Ecfb8Dc65AJQZeChexjvioykdDKLNwC5JuB4bYp");
     const seed1 = Buffer.from(anchor.utils.bytes.utf8.encode("metadata"));
     const seed2 = Buffer.from(mpl.PROGRAM_ID.toBytes());
@@ -29,7 +29,7 @@ async function main(){
     }
     const dataV2 = {
         name: "Fake INR Token",
-        symbol: "DIR",
+        symbol: "FIR",
         uri: "https://avatars.githubusercontent.com/u/74607221?s=96&v=4",
         // we don't need that
         sellerFeeBasisPoints: 0,
@@ -59,7 +59,7 @@ async function main(){
     }
     const tx = new web3.Transaction();
     tx.add(ix);
-    const connection = new web3.Connection("https://api.mainnet-beta.solana.com");
+    const connection = new web3.Connection("https://api.devnet.solana.com");
     const txid = await web3.sendAndConfirmTransaction(connection, tx, [myKeypair]);
     console.log(txid);
 
