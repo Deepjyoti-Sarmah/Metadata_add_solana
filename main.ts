@@ -5,18 +5,17 @@ import * as anchor from '@project-serum/anchor';
 export function loadWalletKey(keypairFile:string): web3.Keypair {
     const fs = require("fs");
     const loaded = web3.Keypair.fromSecretKey(
-      new Uint8Array(JSON.parse(fs.readFileSync(keypairFile).toString())),
+        new Uint8Array(JSON.parse(fs.readFileSync(keypairFile).toString())),
     );
     return loaded;
-  }
+}
 
 const INITIALIZE = false;
 
 async function main(){
     console.log("let's name some tokens!");
 
-   
-    const myKeypair = loadWalletKey(" /home/deepjyotisarmah/.config/solana/id.json");
+    const myKeypair = loadWalletKey("/home/deepjyotisarmah/.config/solana/id.json");
     const mint = new web3.PublicKey("5NFKXyqCsFc6rKrWBodtSm5cA5U1kYZzKhk6HbbLPakA");
     const seed1 = Buffer.from(anchor.utils.bytes.utf8.encode("metadata"));
     const seed2 = Buffer.from(mpl.PROGRAM_ID.toBytes());
@@ -25,7 +24,7 @@ async function main(){
 
 
     let creatorslist:  { address: web3.PublicKey; share: number; verified: boolean }[] = [
-      {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
+        {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
     ]
 
 
@@ -42,7 +41,7 @@ async function main(){
         uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/Metadata_add_solana/master/metadata/metadata.json",
         // we don't need that
         sellerFeeBasisPoints: 100,
-        creators: null,
+        creators: creatorslist,
         collection: null,
         uses: null
     }
@@ -69,7 +68,7 @@ async function main(){
     }
     const tx = new web3.Transaction();
     tx.add(ix);
-    const connection = new web3.Connection("https://api.mainnet-beta.solana.com");
+    const connection = new web3.Connection("https://api.devnet.solana.com");
     const txid = await web3.sendAndConfirmTransaction(connection, tx, [myKeypair]);
     console.log(txid);
 
