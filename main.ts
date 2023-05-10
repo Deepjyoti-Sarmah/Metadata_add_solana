@@ -10,7 +10,7 @@ export function loadWalletKey(keypairFile:string): web3.Keypair {
     return loaded;
 }
 
-const INITIALIZE = false;
+const INITIALIZE = true;
 
 async function main(){
     console.log("let's name some tokens!");
@@ -23,9 +23,9 @@ async function main(){
     const [metadataPDA, _bump] = web3.PublicKey.findProgramAddressSync([seed1, seed2, seed3], mpl.PROGRAM_ID);
 
 
-    let creatorslist:  { address: web3.PublicKey; share: number; verified: boolean }[] = [
-        {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
-    ]
+    // let creatorslist:  { address: web3.PublicKey; share: number; verified: boolean }[] = [
+    //     {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
+    // ]
 
 
     const accounts = {
@@ -40,8 +40,8 @@ async function main(){
         symbol: "DSC",
         uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/Metadata_add_solana/master/metadata/metadata.json",
         // we don't need that
-        sellerFeeBasisPoints: 10,
-        creators: creatorslist,
+        sellerFeeBasisPoints: 0,
+        creators: null,
         collection: null,
         uses: null
     }
