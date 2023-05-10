@@ -39,7 +39,7 @@ async function main(){
     const dataV2 = {
         name: "Deep Stone Coin",
         symbol: "DSC",
-        uri: "",
+        uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/Metadata_add_solana/master/metadata/metadata.json",
         // we don't need that
         sellerFeeBasisPoints: 100,
         creators: null,
