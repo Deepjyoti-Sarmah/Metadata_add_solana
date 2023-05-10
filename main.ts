@@ -1,34 +1,34 @@
 import * as mpl from "@metaplex-foundation/mpl-token-metadata";
 import * as web3 from "@solana/web3.js";
 import * as anchor from '@project-serum/anchor';
-import dotenv from "dotenv";
-dotenv.config();
 
 export function loadWalletKey(keypairFile:string): web3.Keypair {
     const fs = require("fs");
     const loaded = web3.Keypair.fromSecretKey(
-        new Uint8Array(JSON.parse(fs.readFileSync(keypairFile).toString())),
+      new Uint8Array(JSON.parse(fs.readFileSync(keypairFile).toString())),
     );
     return loaded;
-}
+  }
 
-const INITIALIZE = true; 
+const INITIALIZE = false;
 
 async function main(){
-    console.log("let's create our own token and add metadata!");
+    console.log("let's name some tokens!");
 
-    const myKeypair = loadWalletKey("/home/deepjyotisarmah/.config/solana/id.json");
+   
+    const myKeypair = loadWalletKey(" /home/deepjyotisarmah/.config/solana/id.json");
     const mint = new web3.PublicKey("5NFKXyqCsFc6rKrWBodtSm5cA5U1kYZzKhk6HbbLPakA");
-
     const seed1 = Buffer.from(anchor.utils.bytes.utf8.encode("metadata"));
     const seed2 = Buffer.from(mpl.PROGRAM_ID.toBytes());
     const seed3 = Buffer.from(mint.toBytes());
     const [metadataPDA, _bump] = web3.PublicKey.findProgramAddressSync([seed1, seed2, seed3], mpl.PROGRAM_ID);
-    
+
+
     let creatorslist:  { address: web3.PublicKey; share: number; verified: boolean }[] = [
-        {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
+      {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
     ]
-    
+
+
     const accounts = {
         metadata: metadataPDA,
         mint,
@@ -37,12 +37,12 @@ async function main(){
         updateAuthority: myKeypair.publicKey,
     }
     const dataV2 = {
-        name: "Deepjyoti Sarmah Solana Token",
-        symbol: "DSST",
-        uri: "https://avatars.githubusercontent.com/u/74607221?s=96&v=4",
+        name: "Deep Stone Coin",
+        symbol: "DSC",
+        uri: "",
         // we don't need that
         sellerFeeBasisPoints: 100,
-        creators: creatorslist,
+        creators: null,
         collection: null,
         uses: null
     }
@@ -51,7 +51,8 @@ async function main(){
         const args =  {
             createMetadataAccountArgsV2: {
                 data: dataV2,
-                isMutable: true
+                isMutable: true,
+                updateAuthority: myKeypair.publicKey,
             }
         };
         ix = mpl.createCreateMetadataAccountV2Instruction(accounts, args);
@@ -68,7 +69,7 @@ async function main(){
     }
     const tx = new web3.Transaction();
     tx.add(ix);
-    const connection = new web3.Connection("https://api.devnet.solana.com");
+    const connection = new web3.Connection("https://api.mainnet-beta.solana.com");
     const txid = await web3.sendAndConfirmTransaction(connection, tx, [myKeypair]);
     console.log(txid);
 
