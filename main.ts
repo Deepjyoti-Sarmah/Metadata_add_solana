@@ -40,7 +40,7 @@ async function main(){
         symbol: "DSC",
         uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/Metadata_add_solana/master/metadata/metadata.json",
         // we don't need that
-        sellerFeeBasisPoints: 100,
+        sellerFeeBasisPoints: 10,
         creators: creatorslist,
         collection: null,
         uses: null
