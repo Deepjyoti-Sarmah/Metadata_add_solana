@@ -16,17 +16,11 @@ async function main(){
     console.log("let's name some tokens!");
 
     const myKeypair = loadWalletKey("/home/deepjyotisarmah/.config/solana/id.json");
-    const mint = new web3.PublicKey("5NFKXyqCsFc6rKrWBodtSm5cA5U1kYZzKhk6HbbLPakA");
+    const mint = new web3.PublicKey("HzQ6MvffpFNSfpHgqwkzK1WsfA76fjjCdxUnHaFSLU6u");
     const seed1 = Buffer.from(anchor.utils.bytes.utf8.encode("metadata"));
     const seed2 = Buffer.from(mpl.PROGRAM_ID.toBytes());
     const seed3 = Buffer.from(mint.toBytes());
     const [metadataPDA, _bump] = web3.PublicKey.findProgramAddressSync([seed1, seed2, seed3], mpl.PROGRAM_ID);
-
-
-    // let creatorslist:  { address: web3.PublicKey; share: number; verified: boolean }[] = [
-    //     {"address": myKeypair.publicKey, "share" : 100, "verified": true} ,
-    // ]
-
 
     const accounts = {
         metadata: metadataPDA,
@@ -36,9 +30,9 @@ async function main(){
         updateAuthority: myKeypair.publicKey,
     }
     const dataV2 = {
-        name: "Deep Stone Coin",
-        symbol: "DSC",
-        uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/Metadata_add_solana/master/metadata/metadata.json",
+        name: "Deep Stone Token",
+        symbol: "DST",
+        uri: "https://raw.githubusercontent.com/Deepjyoti-Sarmah/photos/main/metadata.json",
         // we don't need that
         sellerFeeBasisPoints: 0,
         creators: null,
@@ -71,7 +65,6 @@ async function main(){
     const connection = new web3.Connection("https://api.devnet.solana.com");
     const txid = await web3.sendAndConfirmTransaction(connection, tx, [myKeypair]);
     console.log(txid);
-
 }
 
 main();
